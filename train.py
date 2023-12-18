@@ -196,10 +196,10 @@ elif init_from == "resume":
     print(f"Loaded checkpoint {ckpt_path} with result: {_IncompatibleKeys}")
     iter_num = checkpoint["iter_num"]
     best_val_loss = checkpoint["best_val_loss"]
+    vocab_source = checkpoint["config"].get("vocab_source", "llama2")
 model.to(device)
 
 # load the tokenizer
-vocab_source = checkpoint["config"].get("vocab_source", "llama2")
 vocab_size = gptconf.vocab_size
 if tokenizer:
     # a specific tokenizer is provided, use it
