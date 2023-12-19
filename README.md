@@ -45,6 +45,11 @@ python train.py \
 ```
 It only need ~10 minutes to finish the training on a single A100 and achieves validation loss of 1.2968. The ckpt is [here](https://huggingface.co/karpathy/tinyllamas/tree/main/stories260K). Though it's a very small model, it can generate somehow fluent sentences:
 ```
+mkdir stories260K && cd stories260K
+wget https://huggingface.co/karpathy/tinyllamas/resolve/main/stories260K/stories260K.pt
+wget https://huggingface.co/karpathy/tinyllamas/resolve/main/stories260K/tok512.model
+cd ..
+
 python sample.py --checkpoint=stories260K/stories260K.pt --tokenizer=stories260K/tok512.model --temperature=0.0 --max_new_tokens=500
 ```
 ```
@@ -97,13 +102,13 @@ python train.py     \
     --learning_rate=1e-4     \
     --dropout=0.00     \
     --weight_decay=0.01     \
-    --max_iters=200000     \
+    --max_iters=98049     \
     --beta2=0.99     \
     --warmup_iters=1000     \
     --eval_interval=20     \
     --eval_iters=5     \
-    --compile=False    \
-    --device=cpu    \
+    --compile=True    \
+    --device=cuda    \
     --eval_only=False   \
     --init_from="resume" \
     --ppo=True  \
@@ -111,7 +116,6 @@ python train.py     \
     --always_save_checkpoint=True  \
     --start_len=30
 ```
-You can see that we are using cpu do PPO training, it is because we are using a very small model and the training is very efficient!
 
 Initial statistics:
 ```
@@ -144,7 +148,7 @@ q+r lengths avg 304.1
     "time/ppo/total": 131.59014678001404
 }
 ```
-In the begining the avg length is 304.1, which is far from the target length 200. After only 49 iterations, the avg length can reach 200.235:
+In the begining the avg length is 304.1, which is far from the target length 200. After only 49 iterations (~10 minutes), the avg length can reach 200.235:
 
 ```
 q+r lengths [169, 230, 199, 135, 197, 172, 297, 189, 162, 201]
@@ -210,8 +214,8 @@ python train.py     \
     --warmup_iters=1000     \
     --eval_interval=20     \
     --eval_iters=5     \
-    --compile=False    \
-    --device=cpu    \
+    --compile=True    \
+    --device=cuda    \
     --eval_only=False   \
     --init_from="resume" \
     --ppo=True  \
