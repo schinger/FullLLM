@@ -1,4 +1,4 @@
-## Fullstack LLM (Llama2): Pre-training/finetuning, PPO(RLHF), Inference, Int8 Quantization
+## Fullstack LLM (Llama 3): Pre-training/Finetuning, PPO(RLHF), Inference, Int8 Quantization
 
 [Karpathy/llama2.c](https://github.com/karpathy/llama2.c) is a great project that includes nearly all the parts to build LLMs. The only thing it doesn't include is RLHF. This project is based on llama2.c and add PPO(RLHF) to it. Also, we make README.md more clear and follow the steps to build LLMs from scratch.
 
@@ -14,12 +14,12 @@ python tinystories.py pretokenize --vocab_size=512
 ```
 The `train_vocab` stage will call the `sentencepiece` library to train the tokenizer, storing it in a new file `data/tok512.model`. The `pretokenize` stage here loads the trained tokenizer and uses it to convert the downloaded text into integers, and saves that to file.
 
-You can also leverage the default Llama2 tokenizers (vocab size 32,000, we don't use it in this project):
+You can also leverage the default Llama2/3 tokenizers (vocab size 32,000, we don't use it in this project):
 ```
 python tinystories.py pretokenize
 ```
-## Pre-training/finetuning
-We pretrain a very small Llama2 model (260K parameters) from [scratch](https://github.com/karpathy/llama2.c/blob/master/doc/stories260K.md):
+## Pre-training/Finetuning
+We pretrain a very small Llama 3 model (260K parameters) from [scratch](https://github.com/karpathy/llama2.c/blob/master/doc/stories260K.md):
 ```
 python train.py \
     --out_dir="outmini" \
@@ -189,7 +189,7 @@ Once upon a time, there was a little girl named Lily. She loved to play outside 
 As they were walking, Lily saw a big, red balloon in the park. She asked her mom, "What's wrong, mom?" Her mom said, "I'm sorry, Lily. I didn't know what to do."
 Lily said, "I don't know, I will help you." Her mom smiled and said, "Yes, Lily. You are a good friend."
 ```
-What if we just want to fit the target length and don't care about the quality of the story? set `--init_kl_coef=0.0` which remove the KL penalty term in PPO loss. 
+What if we just want to fit the target length and don't care about the quality of the story? set `--init_kl_coef=0.0` which remove the KL penalty term. 
 
 ### Just learn the target length
 
